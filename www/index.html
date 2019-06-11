@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <link href="css/index.css" type="text/css" rel="stylesheet">
+        <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
+        <link href="css/style.css" type="text/css" rel="stylesheet">
+        <link href="css/fluid_dg.css" type="text/css" rel="stylesheet">
+        <link href="css/popuo-box.css" type="text/css" rel="stylesheet">
+        <link href="css/jquery-ui.css" type="text/css" rel="stylesheet">
+        <!-- web-fonts -->
+        <link href="css/googleapis-Courgette.css" rel="stylesheet" type="text/css">
+        <link href="css/googleapis-Roboto.css" rel="stylesheet" type="text/css">
+        <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
+
+        <script src="vendor/jquery-2.2.3.min.js" type="text/javascript"></script>
+        <script src="vendor/jquery-ui-1.12.1/jquery-ui.js" type="text/javascript"></script>
+
+
+        <title>Meditator's Drone</title>
+    </head>
+    <body class="bg">
+        <!-- menu -->
+          <button id="list-item-button" class="btn-nav w3layouts_btn">
+            <span class="bar arrow-top-r"></span>
+            <span class="bar arrow-middle-r"></span>
+            <span class="bar arrow-bottom-r"></span>
+          </button>
+          <nav class="nav-container hidden hideNav w3_nav">
+            <ul id="tab-ul" class="nav-list">
+              <li class="list-item"><a id="index-tab-button" class="tab-button active" data-tab="#index-tab"><i class="glyphicon glyphicon-home" aria-hidden="true"></i></a></li>
+              <li class="list-item"><a href="#search-dialog" class="play-icon popup-with-zoom-anim"><i class="glyphicon glyphicon-search" aria-hidden="true"></i></a></li>
+              <li class="list-item"><a href="#aboutme"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i></a></li>
+              <li class="list-item"><a class="construction" href="#"><i class="glyphicon glyphicon-stats" aria-hidden="true"></i></a></li>
+              <li class="list-item"><a href="#contact"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></a></li>
+              <li class="list-item" id="login-li" style="display:none"><a href="#small-dialog" class="play-icon popup-with-zoom-anim"><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i></a></li>
+              <li class="list-item" id="account-li" style="display:none"><a id="account-tab-button" class="tab-button" data-tab="#account-tab"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></a></li>
+            </ul>
+            <a id="search-tab-button" class="tab-button" data-tab="#search-tab"></a>
+            <a id="detail-tab-button" class="tab-button" data-tab="#detail-tab"></a>
+          </nav>
+          <div id="ban" class="agileinfo_menu w3l_menu">
+            <div class="agileinfo_menu_left">
+              <h1><a id="home-button">Meditator's Drone<span><i>Meditation Method</i> Collection</span></a></h1>
+            </div>
+            <div class="agileinfo_menu_right">
+              <div style="display: flex; float:right;">
+                <form id="kwsearch-form" action="search" method="GET">
+                  <input type="text" name="q" placeholder="Search" required />
+                  <button style="background:#F7DD2C;" type="submit">
+                      <i class="glyphicon glyphicon-search"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="clearfix"> </div>
+          </div>
+        <!-- //menu -->
+        <!-- pop-up-box -->
+          <div id="small-dialog" class="mfp-hide w3ls_small_dialog pop-up-box">
+            <h2>Sign In</h2>
+            <div class="modal-body agileits_modal_body">
+               <form id="signin-form" action="signin" method="post">
+                <span>
+                  <i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>
+                  <input type="email" name="Email" placeholder="Email" required=""/>
+                </span>
+                <span class="w3_modal">
+                  <i class="glyphicon glyphicon-lock" aria-hidden="true"></i>
+                  <input type="password" name="Password" placeholder="Password" required=""/>
+                </span>
+                <div class="agile_remember">
+                  <div class="agile_remember_left">
+                    <div class="check">
+                      <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i>remember me</label>
+                    </div>
+                  </div>
+                  <div class="agile_remember_right">
+                    <a href="#">Forgot Password?</a>
+                  </div>
+                  <div class="clearfix"> </div>
+                </div>
+                <input type="submit" value="Sign In">
+              </form>
+              <h5>Don't have an account? <a href="#small-dialog1" class="play-icon popup-with-zoom-anim">Sign Up</a></h5>
+            </div>
+          </div>
+
+          <div id="small-dialog1" class="mfp-hide pop-up-box">
+            <h2>Sign Up</h2>
+            <div class="modal-body w3_agileits_modal_body">
+              <form id="signup-form" action="signup" method="post">
+                <div class="w3_modal_body_grid w3_modal_body_grid1">
+                  <span>Name</span>
+                  <input id="username" type="text" name="Name" placeholder=" " required=""/>
+                </div>
+                <div class="w3_modal_body_grid">
+                  <span>Email</span>
+                  <input id="email" type="email" name="Email" placeholder=" " required=""/>
+                </div>
+                <div class="w3_modal_body_grid w3_modal_body_grid1">
+                  <span>Password</span>
+                  <input id="password" type="password" name="Password" placeholder=" " required=""/>
+                </div>
+                <div class="w3_modal_body_grid w3_modal_body_grid1">
+                  <span>Confirm Password</span>
+                  <input id="confirm_password" type="password" placeholder=" " required=""/>
+                </div>
+                <input type="submit" value="Sign Up">
+              </form>
+              <h5>Already a member <a href="#small-dialog" class="play-icon popup-with-zoom-anim">Sign In</a></h5>
+            </div>
+          </div>
+
+          <div id="checkin-dialog" class="mfp-hide pop-up-box">
+            <h2>I practice this method</h2>
+            <div class="modal-body w3_agileits_modal_body">
+                <div class="w3_modal_body_grid w3_modal_body_grid1">
+                  <span>On</span>
+                  <input class="date" id="datepicker" type="text" value="mm/dd/yyyy" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '01/01/2019';}" required>
+                </div>
+                <div class="w3_modal_body_grid w3_modal_body_grid1">
+                  <span>At</span>
+                  <select id="hour-select" class="frm-field" required>
+                  </select>
+                  :
+                  <select id="minute-select" class="frm-field">
+                  </select>
+                </div>
+                <div class="w3_modal_body_grid w3_modal_body_grid1">
+                  <span>For </span>
+                  <input  id="checkin-length" type="number"/> Minutes
+                </div>
+                <input type="hidden" id="checkin-iid">
+                <button onclick="check_in()">Check In</button>
+                <!-- Calendar -->
+                    <script>
+                        $(function() {
+                          $( "#datepicker" ).datepicker();
+                          for (var i=0; i<24; i++){
+                            s = i.toString();
+                            if (s < 10)
+                              s = "0" + s;
+                            $("#hour-select").append('<option value="'+s+'">'+s+'</option>');
+                          }
+                          for (var i=0; i<=60; i++){
+                            s = i.toString();
+                            if (s < 10)
+                              s = "0" + s;
+                            $("#minute-select").append('<option value="'+s+'">'+s+'</option>');
+                          }
+                          var dt = new Date();
+                          $('#datepicker').val((1+dt.getMonth())+'/'+dt.getDate()+'/'+dt.getFullYear());
+                          $('#hour-select option[value="'+dt.getHours()+'"]').prop('selected', true);
+                          $('#minute-select option[value="'+dt.getMinutes()+'"]').prop('selected', true);
+                        });
+                    </script>
+                <!-- //Calendar -->
+              </div>
+          </div>
+
+          <div id="message-dialog" class="mfp-hide w3ls_small_dialog pop-up-box">
+            <h2 id="message-title"></h2>
+            <div class="modal-body agileits_modal_body">
+              <p id="message-content"></p>
+            </div>
+          </div>
+
+          <div id="search-dialog" class="mfp-hide w3ls_small_dialog pop-up-box">
+            <div class="modal-body agileits_modal_body">
+              <div id="advanced_search" class="agileinfo_your_search_left">
+                <div class="agileinfo_your_search_left_grid">
+                  <h4 class="search-h4 js-arrow">Type</h4>
+                  <div class="agileinfo_your_search_left_grid_sub js-sub-list">
+                    <ul class="search-arrow" style="display:block !important;">
+        							<li class="search-arrow all-li"><span name="search_type" value="-1" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>All Types</li>
+                      <li class="search-arrow none-li"><span name="search_type" value="-2" class="glyphicon glyphicon-remove search-arrow" aria-hidden="true"></span>None Types</li>
+        							<li><span name="search_type" value="1" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>On Cushion</li>
+        	            <li><span name="search_type" value="2" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Off Cushion</li>
+        	         </ul>
+                  </div>
+                </div>
+                <div class="agileinfo_your_search_left_grid">
+                  <h4 class="search-h4 js-arrow">Category</h4>
+                  <div class="agileinfo_your_search_left_grid_sub js-sub-list">
+                    <ul class="search-arrow" style="display:block !important;">
+        							<li class="all-li"><span name="search_category" value="-1" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>All Categories</li>
+                      <li class="none-li"><span name="search_category" value="-2" class="glyphicon glyphicon-remove search-arrow" aria-hidden="true"></span>None Categories</li>
+        							<li><span name="search_category" value="1" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Practice</li>
+        	            <li><span name="search_category" value="2" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>ToolKit</li>
+        	            <li><span name="search_category" value="3" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Reflection</li>
+        	         </ul>
+                  </div>
+                </div>
+                <div class="agileinfo_your_search_left_grid">
+                  <h4 class="search-h4 js-arrow">Tags</h4>
+                  <div class="agileinfo_your_search_left_grid_sub js-sub-list">
+                    <ul class="search-arrow" style="display:block !important;">
+        							<li class="all-li"><span name="search_tag" value="-1" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>All Sources</li>
+                      <li class="none-li"><span name="search_tag" value="-2" class="glyphicon glyphicon-remove search-arrow" aria-hidden="true"></span>None Sources</li>
+        							<li><span name="search_tag" value="Letting go" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Letting go</li>
+        	            <li><span name="search_tag" value="Intention" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Intention</li>
+        	            <li><span name="search_tag" value="Effort &amp; Ease" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Effort &amp; Ease</li>
+        	            <li><span name="search_tag" value="Emotion" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Emotion</li>
+        	            <li><span name="search_tag" value="Dullness" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Dullness</li>
+        	            <li><span name="search_tag" value="Distraction" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Distraction</li>
+        	            <li><span name="search_tag" value="Insight" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Insight</li>
+        	            <li><span name="search_tag" value="Jhana" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>Jhana</li>
+        	          </ul>
+                  </div>
+                </div>
+                <div class="agileinfo_your_search_left_grid">
+                  <h4 id="source-h4" class="search-h4 js-arrow">Source</h4>
+                  <div id="source-div" class="agileinfo_your_search_left_grid_sub js-sub-list">
+                  </div>
+                </div>
+                <div class="agileinfo_your_search_left_grid">
+                  <h4 onclick="search_fav(this)"><i class="glyphicon glyphicon-heart grey" aria-hidden="true"></i></h4>
+                </div>
+                <div class="agileinfo_your_search_left_grid">
+                  <h4 class="search-h4" style="background:#F7DD2C" onclick="advanced_search()">Search</h4>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <a id="show-message-dialog" href="#message-dialog" class="play-icon popup-with-zoom-anim"></a>
+          <a id="show-signin-dialog" href="#small-dialog" class="play-icon popup-with-zoom-anim"></a>
+          <a id="show-checkin-dialog" href="#checkin-dialog" class="play-icon popup-with-zoom-anim"></a>
+
+        <!--//pop-up-box -->
+        <div id="tab-content"></div>
+
+        <!-- footer -->
+          <div class="footer">
+            <div id="tab-footer"></div>
+
+            <div class="copy-right-social">
+              <div class="footer-pos">
+                <a href="#ban" class="scroll"><span></span></a>
+              </div>
+              <div class="copy-right">
+                <p>&copy; 2019 Long Island Meditator | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+              </div>
+              <div class="copy-right-social1">
+                <ul class="wthree_social_icons1">
+                  <li><a href="#" class="icon1 w3_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                  <li><a href="#" class="icon1 w3_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                  <li><a href="#" class="icon1 w3_instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                  <li><a href="#" class="icon1 w3_g_plus"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                </ul>
+              </div>
+              <div class="clearfix"> </div>
+            </div>
+          </div>
+        <!-- //footer -->
+
+
+        <script src="cordova.js" type="text/javascript"></script>
+
+
+        <script src="vendor/jquery.magnific-popup.js" type="text/javascript"></script>
+        <script src="vendor/jquery.easing.1.3.js" type='text/javascript'></script>
+        <script src="vendor/fluid_dg.min.js" type='text/javascript'></script>
+        <script type="text/javascript" src="js/SQLiteStorageService.js"></script>
+        <script src="js/Controller.js" type="text/javascript"></script>
+        <script src="js/index.js" type="text/javascript"></script>
+        <script src="js/m_main.js" type="text/javascript"></script>
+
+        <!-- //js
+        <script type="text/javascript">
+        	jQuery(document).ready(function($) {
+        		$(".scroll").click(function(event){
+        			event.preventDefault();
+        			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+        		});
+        	});
+
+         $(window).load(function() {
+           $(".btn-nav").on("click tap", function() {
+             $(".nav-container").toggleClass("showNav hideNav").removeClass("hidden");
+             $(this).toggleClass("animated");
+           });
+         });
+        </script>
+         -->
+        <!-- //nav -->
+    </body>
+</html>

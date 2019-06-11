@@ -1,0 +1,73 @@
+<!-- banner -->
+	<div class="banner">
+		<div class="fluid_dg_wrap fluid_dg_emboss pattern_1 fluid_dg_white_skin" id="fluid_dg_wrap_4">
+			<div data-thumb="images/1-.jpg" data-src="images/1.jpg"></div>
+			<div data-thumb="images/2-.jpg" data-src="images/2.jpg"></div>
+			<div data-thumb="images/3-.jpg" data-src="images/3.jpg"></div>
+			<div data-thumb="images/4-.jpg" data-src="images/4.jpg"></div>
+			<div data-thumb="images/5-.jpg" data-src="images/5.jpg"></div>
+		</div>
+	</div>
+<!-- //banner -->
+<!-- banner-bottom-login -->
+	<div class="banner-bottom-login">
+		<div class="w3agile_banner_btom_login">
+			<form id="basic-search-form" action="search" method="GET">
+				<div class="w3agile__text w3agile_banner_btom_login_left">
+					<h4>I'm looking for a</h4>
+          <select name="type" class="country frm-field required">
+            <option value="-1" selected>All Type</option>
+						<option value="1">On Cushion</option>
+						<option value="2">Off Cushion</option>
+					</select>
+				</div>
+				<div class="w3agile__text w3agile_banner_btom_login_left1">
+          <h4>&nbsp</h4>
+					<select name="category" class="country frm-field required">
+            <option value="-1" selected="">All Method</option>
+            <option value="1">Practice</option>
+            <option value="2">ToolKit</option>
+            <option value="3">Reflection</option>
+					</select>
+				</div>
+        <div class="clearfix"> </div>
+        <div class="w3agile__text w3agile_banner_btom_login_left add_top">
+					<h4>From</h4>
+          <select id="source-select" name="source" onchange="change_source(this)" class="country frm-field required">
+            <option value="-1" selected>All Source</option>
+					</select>
+				</div>
+				<div class="w3agile__text w3agile_banner_btom_login_left1 add_top">
+          <h4>&nbsp</h4>
+          <select name="chapter" id="chapter-select" class="country frm-field required">
+					</select>
+				</div>
+				<div class="w3agile__text w3agile_banner_btom_login_left2">
+					<h4>About</h4>
+					<select name="tag" class="country3 frm-field required">
+            <option value="-1" selected="">All Tags</option>
+            <option value="Letting go">Letting go</option>
+            <option value="Intention">Intention</option>
+            <option value="Effort &amp; Ease">Effort & Ease</option>
+            <option value="Emotion">Emotion</option>
+            <option value="Dullness">Dullness</option>
+            <option value="Distraction">Distraction</option>
+            <option value="Insight">Insight</option>
+            <option value="Jhana">Jhana</option>
+					</select>
+				</div>
+				<div class="w3agile_banner_btom_login_left3">
+					<button type="submit">Search</button>
+				</div>
+				<div class="clearfix"> </div>
+			</form>
+		</div>
+	</div>
+<!-- //banner-bottom-login -->
+<!-- banner -->
+<script>jQuery(document).ready(function(){
+	jQuery(function(){
+		jQuery('#fluid_dg_wrap_4').fluid_dg({height: 'auto', loader: 'bar', pagination: false, thumbnails: true, hover: false, opacityOnGrid: false, imagePath: ''});
+	}); })
+</script>
+<!-- //banner -->
