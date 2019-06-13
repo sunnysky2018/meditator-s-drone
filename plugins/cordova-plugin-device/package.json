@@ -22,7 +22,11 @@
   "_resolved": "https://registry.npmjs.org/cordova-plugin-device/-/cordova-plugin-device-1.1.7.tgz",
   "_shasum": "fc94111be6932628c66868938ddf3dc82c9fbfe6",
   "_spec": "cordova-plugin-device@~1.1.6",
+<<<<<<< HEAD
   "_where": "/Users/Wan/develope/meditator-s-drone",
+=======
+  "_where": "C:\\Users\\huang\\Desktop\\zen\\zen_app",
+>>>>>>> b616ec27c9dd98290039bcd81338b0c841d7e6cc
   "author": {
     "name": "Apache Software Foundation"
   },
