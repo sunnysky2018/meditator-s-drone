@@ -2,7 +2,10 @@
 var controller = null;
 
 // test only!!!
-// controller = new Controller();
+if (document.URL.match(/^https?:/i)){
+  controller = new Controller();
+}
+//
 
 var app = {
     // Application Constructor
