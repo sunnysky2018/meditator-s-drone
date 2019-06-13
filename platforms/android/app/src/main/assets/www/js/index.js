@@ -2,7 +2,7 @@
 var controller = null;
 
 // test only!!!
-controller = new Controller();
+// controller = new Controller();
 
 var app = {
     // Application Constructor
