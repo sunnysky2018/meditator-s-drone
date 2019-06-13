@@ -65,7 +65,7 @@ SQLiteStorageService = function () {
     service.getDetail = function(id, callback){
       db.transaction(function(transaction) {
         transaction.executeSql("SELECT * FROM inventory WHERE id="+id,[], function(ignored, resultSet) {
-            callback(resultSet.rows[0]);
+            callback(resultSet.rows.item(0));
         });
       }, function(error) {
         alert('Search error: ' + error.message);
@@ -138,14 +138,6 @@ SQLiteStorageService = function () {
     service.addInventory = function(name, description, category, inventory_type,
                                     tag,chapter_name,chapter_ordering,source_name,
                                     source_author,privatenote_note,isfavorite, callback) {
-      /*
-      sql = "INSERT OR REPLACE INTO inventory (name, description, category, inventory_type," +
-                                      "tag,chapter_name,chapter_ordering,source_name," +
-                                      "source_author,privatenote_note,isfavorite)" +
-            " values('"+name+"', '"+description+"', '"+category+"', '"+inventory_type+"','"+
-                      tag+"','"+chapter_name+"','"+chapter_ordering+"','"+source_name+"','"+
-                      source_author+"','"+privatenote_note+"','"+isfavorite+"')";
-      */
       sql = "INSERT OR REPLACE INTO inventory (name, description, category, inventory_type," +
                                       "tag,chapter_name,chapter_ordering,source_name," +
                                       "source_author,privatenote_note,isfavorite) " +
@@ -168,7 +160,7 @@ SQLiteStorageService = function () {
             for(var i=0; i<data.length; i++){
               source = {};
               source["id"] = i+1;
-              source["name"] = data[i].source_name;
+              source["name"] = data.item(i).source_name;
               sources.push(source);
             }
             callback(sources);
@@ -186,7 +178,7 @@ SQLiteStorageService = function () {
             for(var i=0; i<data.length; i++){
               chapter = {};
               chapter["id"] = i+1;
-              chapter["name"] = data[i].chapter_name;
+              chapter["name"] = data.item(i).chapter_name;
               chapters.push(chapter);
             }
             callback(chapters);

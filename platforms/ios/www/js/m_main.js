@@ -76,15 +76,16 @@ function set_list(list){
 function set_list_local(list){
   $('#search-result-div').empty();
   for (var i=0; i<list.length; i++){
+    var row = list.item(i);
     $('#search-result-div').append(
       '<div class="agileinfo_your_search_right_grid inventory-display">' +
-        '<a href="#" onclick="get_detail_local('+list[i]["id"]+')">' +
-        '<h4>'+list[i]['name']+'<i class="glyphicon glyphicon-chevron-right" style="float:right;color:#999999;" aria-hidden="true"></i></h4>' +
+        '<a href="#" onclick="get_detail_local('+row["id"]+')">' +
+        '<h4>'+row['name']+'<i class="glyphicon glyphicon-chevron-right" style="float:right;color:#999999;" aria-hidden="true"></i></h4>' +
         '<div class="agileinfo_search_grid_right" style="margin-top:1em"><ul>' +
 
-        '<li>'+list[i]['source_author']+' | '+list[i]['source_name']+'</li>' +
-        '<li>'+list[i]['inventory_type']+' | '+list[i]['category']+'</li>' +
-        '<li>'+list[i]['tag']+'</li>' +
+        '<li>'+row['source_author']+' | '+row['source_name']+'</li>' +
+        '<li>'+row['inventory_type']+' | '+row['category']+'</li>' +
+        '<li>'+row['tag']+'</li>' +
         '</ul></a></div>');
   }
 }
