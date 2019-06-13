@@ -138,25 +138,20 @@ SQLiteStorageService = function () {
     service.addInventory = function(name, description, category, inventory_type,
                                     tag,chapter_name,chapter_ordering,source_name,
                                     source_author,privatenote_note,isfavorite, callback) {
+      /*
       sql = "INSERT OR REPLACE INTO inventory (name, description, category, inventory_type," +
                                       "tag,chapter_name,chapter_ordering,source_name," +
                                       "source_author,privatenote_note,isfavorite)" +
             " values('"+name+"', '"+description+"', '"+category+"', '"+inventory_type+"','"+
                       tag+"','"+chapter_name+"','"+chapter_ordering+"','"+source_name+"','"+
                       source_author+"','"+privatenote_note+"','"+isfavorite+"')";
-      console.log(sql);
+      */
+      sql = "INSERT OR REPLACE INTO inventory (name, description, category, inventory_type," +
+                                      "tag,chapter_name,chapter_ordering,source_name," +
+                                      "source_author,privatenote_note,isfavorite) " +
+            "VALUES(?,?,?,?,?,?,?,?,?,?,?)"
       db.transaction(function(transaction) {
-        transaction.executeSql(sql,[], function(ignored, resultSet) {
-          /* TEST */
-            console.log(resultSet);
-            db.transaction(function(transaction) {
-              transaction.executeSql("SELECT * FROM inventory",[], function(ignored, resultSet) {
-                  console.log(resultSet);
-              });
-            }, function(error) {
-              callback("error: " + error.message);
-            });
-           /* END OF TEST */
+        transaction.executeSql(sql,[name,description, category, inventory_type,tag,chapter_name,chapter_ordering,source_name,source_author,privatenote_note,isfavorite], function(ignored, resultSet) {
             callback("ok");
         });
       }, function(error) {
