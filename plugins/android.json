@@ -12,6 +12,9 @@
     },
     "cordova-sqlite-storage": {
       "PACKAGE_NAME": "zen.app"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "zen.app"
     }
   },
   "dependent_plugins": {}

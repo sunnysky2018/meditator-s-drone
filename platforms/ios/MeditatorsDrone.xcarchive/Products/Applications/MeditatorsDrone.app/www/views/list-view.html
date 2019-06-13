@@ -1,0 +1,57 @@
+<!-- your-search -->
+	<div class="your-search" style="overflow:hidden" id="list-view">
+
+		<div id="search-result-div" class="agileinfo_your_search_right">
+			<h3>Your search results</h3>
+		</div>
+		<div class="clearfix"> </div>
+	</div>
+
+	<div class="your-search" id="detail-view" style="display:none">
+		<div class="agileinfo_your_search_right">
+      <i class="glyphicon glyphicon-chevron-left" onclick="back_to_list()" aria-hidden="true"></i>
+		<div>
+
+		<div class="agileinfo_your_search_right">
+			<div class="agileinfo_your_search_right_grid inventory-display">
+				<h4 id="detail-name"></h4>
+				<div class="agileinfo_search_grid_right">
+					<ul>
+						<li id="detail-type"><span>Type</span></li>
+						<li id="detail-category"><span>Category</span></li>
+						<li id="detail-tags"><span>Tags</span></li>
+						<li id="detail-source"><span>Source</span></li>
+						<li id="detail-author"><span>Author</span></li>
+						<li id="detail-chapter"><span>Chapter</span></li>
+					</ul>
+          <div class="agileinfo_your_search_right_grid_sub item-foot">
+  					<h5 id="detail-action">
+                <span id="detail-id" style="display:none"></span>
+								<i class="glyphicon glyphicon-download-alt" onclick="save(this)" aria-hidden="true"></i>&nbsp&nbsp&nbsp
+  						  <i class="glyphicon glyphicon-heart" onclick="change_favorite(this)" aria-hidden="true"></i>&nbsp&nbsp&nbsp
+  							<i class="glyphicon glyphicon-pencil" onclick="show_note(this)" aria-hidden="true"></i>&nbsp&nbsp&nbsp
+  						  <i class="glyphicon glyphicon-bookmark" onclick="show_check_in()" aria-hidden="true"></i>&nbsp&nbsp&nbsp
+  							<i class="glyphicon glyphicon-comment" onclick="show_comment(this)" aria-hidden="true"></i>
+  					</h5>
+  				</div>
+  				<div class="clearfix"> </div>
+					<p id="detail-description"></p>
+					<div class="item-desc note-ul">
+						<div><span>My Note</span></div>
+						<div class="item-text notetext"></div>
+						<div><i class="glyphicon glyphicon-pencil black" onclick="edit_note(this)" style="float:right" aria-hidden="true"></i></div>
+					</div>
+					<div class="clearfix"> </div>
+					<div class="item-desc comment-ul">
+						<div id='comments-div'><span>Comments</span></div>
+						<p class="add-comment writing-comment" style="display:none"></p>
+						<div class="item-text commenttext add-comment" style="display:none;margin-top:0" contenteditable="true"></div>
+						<div><i class="glyphicon glyphicon-plus black" onclick="add_comment(this)" style="float:right" aria-hidden="true"></i></div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="clearfix"> </div>
+	</div>
+<!-- //your-search -->
