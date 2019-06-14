@@ -217,6 +217,10 @@ function get_detail_local(id) {
     $('.notetext').html(list['privatenote_note']);
     if (list['isfavorite']==1){
       $('.glyphicon-heart').addClass('red');
+    } else {
+      if ($('.glyphicon-heart').hasClass('red')) {
+        $('.glyphicon-heart').removeClass('red');
+      }
     }
     $("#list-view").css("display","none");
     $("#detail-view").css("display","block");
@@ -263,6 +267,10 @@ function get_detail(iid){
             }
             if (responseData['isfavorite']==1){
               $('.glyphicon-heart').addClass('red');
+            } else {
+              if ($('.glyphicon-heart').hasClass('red')) {
+                $('.glyphicon-heart').removeClass('red');
+              }
             }
             $("#list-view").css("display","none");
             $("#detail-view").css("display","block");
