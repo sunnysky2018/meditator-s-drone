@@ -527,7 +527,6 @@ var Controller = function() {
                     }
                   },
                   error: function(xmlhttprequest, textstatus, message) {
-                    alert(message);
                     $('#show-message-dialog').click();
                     $('#message-title').text("Submited");
                     $('#message-content').text("Something went wrong. Please try again later.");

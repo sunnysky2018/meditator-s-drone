@@ -92,12 +92,24 @@ function set_list_local(list){
 
 function advanced_search() {
   var criteria = {};
+  $('#advanced_search').find('.glyphicon-ok-sign').each(function(){
+    if (!$(this).hasClass("grey")){
+      var name = $(this).attr('name');
+      criteria[name] = '-1';
+    }
+  });
+  $('#advanced_search').find('.glyphicon-remove-sign').each(function(){
+    if (!$(this).hasClass("grey")){
+      var name = $(this).attr('name');
+      criteria[name] = '-2';
+    }
+  });
   $('#advanced_search').find('.glyphicon-ok').each(function(){
     var name = $(this).attr('name');
     var value = $(this).attr('value');
     if (criteria[name] == undefined) {
       criteria[name] = value;
-    } else if (criteria[name] != '-1') {
+    } else if (criteria[name] != '-1' && criteria[name] != '-2') {
       criteria[name] = criteria[name] + ',' + value;
     }
   });
@@ -484,7 +496,6 @@ function validatePassword(){
   }
 }
 
-
 function set_source_select(data){
   $('#source-select').empty();
   for(var i=0; i<data.length; i++)
@@ -494,20 +505,22 @@ function set_source_select(data){
 
 function set_source(data, offline=false) {
   for(var i=0; i<data.length; i++)
-    $('#source-ul').append('<li class="search-arrow source-li has-sub"><div class="has-sub-wrap" id="source-'+data[i]['id']+'"><span name="search_source" value="'+data[i]['id']+'" class="glyphicon glyphicon-triangle-top search-arrow" aria-hidden="true"></span>'+data[i]['name']+'</div></li>');
+    $('#source-ul').append('<li class="search-arrow source-li has-sub"><div class="has-sub-wrap" id="source-'+data[i]['id']+'"><span name="search_source" value="'+data[i]['id']+'" class="glyphicon glyphicon-forward grey search-arrow" aria-hidden="true"></span>'+data[i]['name']+'</div></li>');
   $(".has-sub-wrap").click(function() {
-    if ($(this).find('span').hasClass("glyphicon-triangle-top")) {
-      $(this).find('span').removeClass("glyphicon-triangle-top")
-             .addClass("glyphicon-triangle-right");
+    if ($(this).find('span').hasClass("grey")) {
+      $(this).find('span').removeClass("grey");
       var ul = $(this).closest('li').find('ul');
       if (ul.length == 0) {
         var list = $(this).closest('li').append('<ul style="display:block !important;"></ul>').find('ul');
         var source_id = this.id.replace('source-','');
-        var selected = "glyphicon-ok";
-        if ($("#all-source").find('span').hasClass('glyphicon-triangle-top'))
-            selected = "glyphicon-triangle-top"
-        list.append('<li class="chapter-li-all" style="margin-left:30px"><span name="search_source" value="'+source_id+'" class="glyphicon '+selected+' search-arrow" aria-hidden="true"></span>All Chapters</li>');
-        list.append('<li class="chapter-li-none" style="margin-left:30px"><span name="search_source" value="--'+source_id+'" class="glyphicon glyphicon-remove search-arrow" aria-hidden="true"></span>None Chapters</li>');
+        var selected_all = "";
+        var selected_none = "grey ";
+        if (!($("#none-source").find('span').hasClass('grey'))){
+            selected_all = "grey ";
+            selected_none = "";
+        }
+        list.append('<li class="chapter-all-li" style="margin-left:30px"><span name="search_source" value="'+source_id+'" class="glyphicon glyphicon-ok-sign '+selected_all+'search-arrow" aria-hidden="true"></span>All Chapters</li>');
+        list.append('<li class="chapter-none-li" style="margin-left:30px"><span name="search_source" value="--'+source_id+'" class="glyphicon glyphicon-remove-sign '+selected_none+'search-arrow" aria-hidden="true"></span>None Chapters</li>');
         if (offline==false) {
           $.ajax({
               url: end_point + '/chapter_list?sid='+(this.id.replace("source-","")),
@@ -529,20 +542,19 @@ function set_source(data, offline=false) {
       } else {
         ul.slideToggle("250");
       }
-    } else if ($(this).find('span').hasClass("glyphicon-triangle-right")){
+    } else {
       if ($(this).closest('li').find('ul').length > 0)
           $(this).closest('li').find('ul').slideToggle("250");
-      $(this).find('span').removeClass("glyphicon-triangle-right")
-             .addClass("glyphicon-triangle-top");
+      $(this).find('span').addClass("grey");
     }
   });
 }
 
 function set_chapter(data, list) {
   for(var i=0; i<data.length; i++){
-    if ($("#all-source").find('span').hasClass('glyphicon-ok'))
-      list.append('<li class="chapter-li" style="margin-left:30px"><span name="search_chapter" value="'+data[i]['id']+'" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>'+data[i]['name']+'</li>');
-    else
+    if (!($("#none-source").find('span').hasClass('grey')))
       list.append('<li class="chapter-li" style="margin-left:30px"><span name="search_chapter" value="'+data[i]['id']+'" class="glyphicon glyphicon-triangle-top search-arrow" aria-hidden="true"></span>'+data[i]['name']+'</li>');
+    else
+      list.append('<li class="chapter-li" style="margin-left:30px"><span name="search_chapter" value="'+data[i]['id']+'" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>'+data[i]['name']+'</li>');
   }
 }

@@ -172,6 +172,7 @@ var Controller = function() {
                 }
               });
             });
+            /*
             $('.js-arrow').click(function (e) {
               e.preventDefault();
               if (this.id == 'source-h4') {
@@ -233,43 +234,183 @@ var Controller = function() {
               $(this).toggleClass("open");
               $(this).parent().find('.js-sub-list').slideToggle("250");
             });
+            */
 
             // search modal
             $('.js-sub-list').hide();
             $('#chapter').hide();
-            $('.search-arrow li').click(function() {
-              if ($(this).find('span').hasClass("glyphicon-triangle-top")) {
-                if ($(this).hasClass("all-li")) {
+            $('.no-sub').on('click','li',function(e) {
+              if ($(this).hasClass("all-li")){
+                if($(this).find('span').hasClass("grey")) {
+                  $(this).find('span').removeClass("grey");
                   $(this).closest('ul').find('span').each(function(){
                     if ($(this).hasClass("glyphicon-triangle-top")){
                       $(this).removeClass("glyphicon-triangle-top")
                              .addClass("glyphicon-ok");
+                    } else if ($(this).hasClass("glyphicon-remove-sign") && (!($(this).hasClass("grey")))) {
+                      $(this).addClass("grey");
+                    } else if ($(this).hasClass("glyphicon-ok-sign") && $(this).hasClass("grey")){
+                      $(this).removeClass("grey");
                     }
-                  })
+                  });
                 }
+              } else if ($(this).hasClass("none-li")) {
+                if($(this).find('span').hasClass("grey")) {
+                  $(this).find('span').removeClass("grey");
+                  $(this).closest('ul').find('span').each(function(){
+                    if ($(this).hasClass("glyphicon-ok")){
+                      $(this).removeClass("glyphicon-ok")
+                             .addClass("glyphicon-triangle-top");
+                    } else if ($(this).hasClass("glyphicon-ok-sign") && (!($(this).hasClass("grey")))) {
+                      $(this).addClass("grey");
+                    } else if ($(this).hasClass("glyphicon-remove-sign") && (($(this).hasClass("grey")))) {
+                      $(this).removeClass("grey");
+                    }
+                  });
+                }
+              } else if ($(this).find('span').hasClass("glyphicon-triangle-top")) {
                 $(this).find('span').removeClass("glyphicon-triangle-top")
                                     .addClass("glyphicon-ok");
-
+                var non = $(this).closest('ul').find('.none-li').find('span');
+                if (!non.hasClass("grey")) {
+                  non.addClass("grey");
+                }
               } else if ($(this).find('span').hasClass("glyphicon-ok")) {
                 $(this).find('span').removeClass("glyphicon-ok")
                                     .addClass("glyphicon-triangle-top");
-                $(this).closest('ul').find('li').each(function(){
-                  if ($(this).hasClass("all-li") && $(this).find('span').hasClass("glyphicon-ok")){
-                    $(this).find('span').removeClass("glyphicon-ok")
-                                        .addClass("glyphicon-triangle-top");
+                var all = $(this).closest('ul').find('.all-li').find('span');
+                if (!all.hasClass("grey")) {
+                  all.addClass("grey");
+                }
+              }
+            });
+
+            $('#all-source').click(function(){
+              if($(this).find('span').hasClass("grey")) {
+                $(this).find('span').removeClass("grey");
+                $(this).closest('ul').find('span').each(function(){
+                  if ($(this).hasClass("glyphicon-triangle-top")){
+                    $(this).removeClass("glyphicon-triangle-top")
+                           .addClass("glyphicon-ok");
+                  } else if ($(this).hasClass("glyphicon-remove-sign") && (!($(this).hasClass("grey")))) {
+                    $(this).addClass("grey");
+                  } else if ($(this).hasClass("glyphicon-ok-sign") && $(this).hasClass("grey")){
+                    $(this).removeClass("grey");
                   }
                 });
-              } else if ($(this).hasClass("none-li")) {
+              }
+            });
+
+            $('#none-source').click(function(){
+              if($(this).find('span').hasClass("grey")) {
+                $(this).find('span').removeClass("grey");
                 $(this).closest('ul').find('span').each(function(){
                   if ($(this).hasClass("glyphicon-ok")){
                     $(this).removeClass("glyphicon-ok")
                            .addClass("glyphicon-triangle-top");
+                  } else if ($(this).hasClass("glyphicon-ok-sign") && (!($(this).hasClass("grey")))) {
+                    $(this).addClass("grey");
+                  } else if ($(this).hasClass("glyphicon-remove-sign") && (($(this).hasClass("grey")))) {
+                    $(this).removeClass("grey");
                   }
-                })
+                });
               }
             });
 
+            $('#source-ul').on('click','.chapter-all-li',function(){
+              if($(this).find('span').hasClass("grey")) {
+                $(this).find('span').removeClass("grey");
+                $(this).closest('ul').find('span').each(function(){
+                  if ($(this).hasClass("glyphicon-triangle-top")){
+                    $(this).removeClass("glyphicon-triangle-top")
+                           .addClass("glyphicon-ok");
+                  } else if ($(this).hasClass("glyphicon-remove-sign") && (!($(this).hasClass("grey")))) {
+                    $(this).addClass("grey");
+                  } else if ($(this).hasClass("glyphicon-ok-sign") && $(this).hasClass("grey")){
+                    $(this).removeClass("grey");
+                  }
+                });
+                if (!$('#none-source').find('span').hasClass('grey'))
+                  $('#none-source').find('span').addClass('grey');
+              }
+            });
 
+            $('#source-ul').on('click','.chapter-none-li',function(){
+              if($(this).find('span').hasClass("grey")) {
+                $(this).find('span').removeClass("grey");
+                $(this).closest('ul').find('span').each(function(){
+                  if ($(this).hasClass("glyphicon-ok")){
+                    $(this).removeClass("glyphicon-ok")
+                           .addClass("glyphicon-triangle-top");
+                  } else if ($(this).hasClass("glyphicon-ok-sign") && (!($(this).hasClass("grey")))) {
+                    $(this).addClass("grey");
+                  } else if ($(this).hasClass("glyphicon-remove-sign") && (($(this).hasClass("grey")))) {
+                    $(this).removeClass("grey");
+                  }
+                });
+                if (!$('#all-source').find('span').hasClass('grey'))
+                  $('#all-source').find('span').addClass('grey');
+              }
+            });
+
+            $('#source-ul').on('click','.chapter-li', function(){
+              if ($(this).find('span').hasClass("glyphicon-triangle-top")) {
+                $(this).find('span').removeClass("glyphicon-triangle-top")
+                                    .addClass("glyphicon-ok");
+                var non = $(this).closest('ul').find('.chapter-none-li').find('span');
+                if (!non.hasClass("grey")) {
+                  non.addClass("grey");
+                }
+                if (!$('#none-source').find('span').hasClass('grey'))
+                  $('#none-source').find('span').addClass('grey');
+              } else if ($(this).find('span').hasClass("glyphicon-ok")) {
+                $(this).find('span').removeClass("glyphicon-ok")
+                                    .addClass("glyphicon-triangle-top");
+                var all = $(this).closest('ul').find('.chapter-all-li').find('span');
+                if (!all.hasClass("grey")) {
+                  all.addClass("grey");
+                }
+                if (!$('#all-source').find('span').hasClass('grey'))
+                  $('#all-source').find('span').addClass('grey');
+              }
+            });
+
+            $('.js-arrow').click(function (e) {
+              e.preventDefault();
+              if (this.id == 'source-h4') {
+                var ul = $(this).next().find('ul');
+                var li = ul.find('li');
+                if (li.length <= 2) {
+                  var list = $(this).next().find('ul');
+                  $.ajax({
+                      url: end_point + '/source_list/',
+                      type: 'GET',
+                      success: function(responseData) {
+                        localStorage.setItem("online",true);
+                        set_source(responseData["data"]);
+                      },
+                      error: function(xmlhttprequest, textstatus, message) {
+                        if (localStorage.getItem("online")=="true"){
+                          localStorage.setItem("online",false);
+                          $('#show-message-dialog').click();
+                          $('#message-title').text("Connection Error");
+                          $('#message-content').text("Something went wrong. Using local data.");
+                        }
+                        self.storageService.getSource(function(sc) {
+                          set_source(sc, offline=true);
+                        });
+                      }
+                  });
+                } else {
+                  ul.slideToggle("250");
+                }
+              }
+              $(this).find(".arrow").toggleClass("up");
+              $(this).toggleClass("open");
+              $(this).parent().find('.js-sub-list').slideToggle("250");
+            });
+
+            /*
             $('#source-div').click(function(e) {
               var t = $(e.target);
               if (t.hasClass('chapter-li')){
@@ -313,6 +454,7 @@ var Controller = function() {
                                                   .addClass('glyphicon-triangle-top');
               }
             });
+            */
 
             document.getElementById("username").onchange = validateUsername;
             document.getElementById("email").onkeyup = validateEmail;
