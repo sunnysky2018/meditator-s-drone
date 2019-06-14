@@ -72,6 +72,16 @@ SQLiteStorageService = function () {
       });
     }
 
+    service.getAll = function(callback){
+      db.transaction(function(transaction) {
+        transaction.executeSql("SELECT id,name,source_name,source_author FROM inventory",[], function(ignored, resultSet) {
+            callback(resultSet.rows);
+        });
+      }, function(error) {
+        alert('Get all error: ' + error.message);
+      });
+    }
+
     service.getInventories = function(type,category,tag,source,chapter,q,callback) {
       sql = 'SELECT * FROM inventory';
       if (q != null && q.length > 0){
@@ -135,15 +145,26 @@ SQLiteStorageService = function () {
       });
     }
 
-    service.addInventory = function(name, description, category, inventory_type,
+    service.addInventory = function(id, name, description, category, inventory_type,
                                     tag,chapter_name,chapter_ordering,source_name,
                                     source_author,privatenote_note,isfavorite, callback) {
-      sql = "INSERT OR REPLACE INTO inventory (name, description, category, inventory_type," +
+      sql = "INSERT OR REPLACE INTO inventory (id, name, description, category, inventory_type," +
                                       "tag,chapter_name,chapter_ordering,source_name," +
                                       "source_author,privatenote_note,isfavorite) " +
-            "VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"
       db.transaction(function(transaction) {
-        transaction.executeSql(sql,[name,description, category, inventory_type,tag,chapter_name,chapter_ordering,source_name,source_author,privatenote_note,isfavorite], function(ignored, resultSet) {
+        transaction.executeSql(sql,[id,name,description, category, inventory_type,tag,chapter_name,chapter_ordering,source_name,source_author,privatenote_note,isfavorite], function(ignored, resultSet) {
+            callback("ok");
+        });
+      }, function(error) {
+        callback("error: " + error.message);
+      });
+    }
+
+    service.removeInventory = function(id, callback) {
+      sql = "DELETE FROM inventory where id=?";
+      db.transaction(function(transaction) {
+        transaction.executeSql(sql,[id], function(ignored, resultSet) {
             callback("ok");
         });
       }, function(error) {

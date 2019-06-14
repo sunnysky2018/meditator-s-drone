@@ -2861,6 +2861,9 @@ nav.w3agile_paging {
 .checkin-ul div{
 	display:block;
 }
+.grey {
+	color: #999999 !important;
+}
 .checkin-info{
 	margin: 0 2.5em 0;
 	color: #999999;

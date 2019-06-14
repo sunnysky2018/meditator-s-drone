@@ -640,9 +640,13 @@ var Controller = function() {
             $("#tab-content").load("./views/account-view.html", function(data) {
 
               $('#checkin-h4').on('click', function(e){
-                ul = $(this).find('ul');
+                ul = $(this).closest('div').find('ul');
                 if (ul.length>0){
                   ul.remove();
+                }
+                p = $(this).closest('div').find('p');
+                if (p.length>0){
+                  p.remove();
                 }
                 $.ajax({
                   url: END_POINT + 'account',
@@ -672,6 +676,39 @@ var Controller = function() {
                     $('#show-message-dialog').click();
                     $('#message-title').text("Submited");
                     $('#message-content').text("Something went wrong. Please try again later.");
+                  }
+                });
+
+                $(this).find(".arrow").toggleClass("up");
+                $(this).toggleClass("open");
+                $(this).parent().find('.js-sub-list').slideToggle("250");
+              });
+
+              $('#download-h4').on('click', function(e){
+                ul = $(this).closest('div').find('ul');
+                if (ul.length>0){
+                  ul.remove();
+                }
+                p = $(this).closest('div').find('p');
+                if (p.length>0){
+                  p.remove();
+                }
+                controller.storageService.getAll(function(list){
+                  if (list==undefined || list.length==0 ){
+                    $("#download-div").append('<p>Oops, no saved method.</p>');
+                  } else {
+                    var ul = $("#download-div").append('<ul class="search-arrow" style="display:block !important;">').find('ul');
+                    for (var i=0; i<list.length; i++){
+                      var row = list.item(i);
+                      var li_str = '<li class="download-li">'+
+                                 '<div class="download-title">'+row['name']+'</div>' +
+                                 '<div class="download-source grey">'+row["source_name"]+'</div>' +
+                                 '<div class="download-author grey">'+row["source_author"]+'</div>' +
+                                 '<div onclick=remove_by_id(this,'+row["id"]+')><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div>';
+
+                      li_str = li_str + '</li>';
+                      ul.append(li_str);
+                    }
                   }
                 });
 

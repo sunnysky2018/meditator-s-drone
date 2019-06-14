@@ -63,13 +63,14 @@ function set_list(list){
     $('#search-result-div').append(
       '<div class="agileinfo_your_search_right_grid inventory-display">' +
         '<a href="#" onclick="get_detail('+list[i]["id"]+')">' +
-        '<h4>'+list[i]['name']+'<i class="glyphicon glyphicon-chevron-right" style="float:right;color:#999999;" aria-hidden="true"></i></h4>' +
+        '<h4>'+list[i]['name']+'<i class="glyphicon glyphicon-chevron-right" style="float:right;color:#999999;" aria-hidden="true"></i></h4></a>' +
         '<div class="agileinfo_search_grid_right" style="margin-top:1em"><ul>' +
-
+        '<a href="#" onclick="get_detail('+list[i]["id"]+')">' +
         '<li>'+list[i]['source_chapter']['source']['author']+' | '+list[i]['source_chapter']['source']['name']+'</li>' +
         '<li>'+list[i]['inventory_type']+' | '+list[i]['category']+'</li>' +
-        '<li>'+t+'</li>' +
-        '</ul></a></div>');
+        '<li>'+t+'</li></a>' +
+        '<li><i class="glyphicon glyphicon-download-alt" onclick="save_by_id('+list[i]["id"]+')" aria-hidden="true"></i></li>' +
+        '</ul></div>');
   }
 }
 
@@ -204,6 +205,7 @@ function back_to_list() {
 function get_detail_local(id) {
   controller.storageService.getDetail(id,function(list){
     $('#detail-id').val(list['id']);
+    $('#detail-ordering').val(list['chapter_ordering']);
     $('#detail-name').html(list['name']);
     $('#detail-type').html('<span>Type : </span>'+list['inventory_type']);
     $('#detail-category').html('<span>Category : </span>'+list['category']);
@@ -241,6 +243,7 @@ function get_detail(iid){
               t = t + tags[tags.length-1]['name'];
             }
             $('#detail-id').val(list['id']);
+            $('#detail-ordering').val(list['source_chapter']['ordering']);
             $('#detail-name').html(list['name']);
             $('#detail-type').html('<span>Type : </span>'+list['inventory_type']);
             $('#detail-category').html('<span>Category : </span>'+list['category']);
@@ -291,7 +294,75 @@ function change_favorite(el) {
   }
 }
 
+function save_by_id(id){
+  var headers = null;
+  if (localStorage.getItem('token'))
+    headers = {'Authorization':'Token '+localStorage.getItem('token')};
+  $.ajax({
+      url: END_POINT + 'detail/'+id,
+      type: 'GET',
+      headers: headers,
+      success: function(responseData) {
+        if (responseData['responseCode']=='000000') {
+            var list = responseData['records'];
+            var t = '';
+            var tags = list['tag'];
+            if (tags.length > 0) {
+              for (var i=0; i<tags.length-1; i++)
+                t = t + tags[i]['name'] + ", ";
+              t = t + tags[tags.length-1]['name'];
+            }
+            var id = list['id'];
+            var chapter_ordering = list['source_chapter']['chapter_ordering'];
+            var name = list['name'];
+            var inventory_type = list['inventory_type'];
+            var category = list['category'];
+            var tag = t;
+            var source_name = list['source_chapter']['source']['name'];
+            var source_author = list['source_chapter']['source']['author'];
+            var chapter_name = list['source_chapter']['name'];
+            var description = list['description'];
+            var privatenote_note = responseData['privatenote']['note'];
+            var isfavorite = 0;
+            if (responseData['isfavorite']==1){
+              isfavorite = 1
+            }
+            controller.storageService.addInventory(id, name, description, category, inventory_type,
+                                            tag,chapter_name,chapter_ordering,source_name,
+                                            source_author,privatenote_note,isfavorite,function(saved){
+              if (saved == "ok"){
+                $('#show-message-dialog').click();
+                $('#message-title').text("Success");
+                $('#message-content').text("Data saved.");
+              } else {
+                $('#show-message-dialog').click();
+                $('#message-title').text("Error");
+                $('#message-content').text("Something went wrong. Please try again later."+saved);
+              }
+            });
+        }
+      },
+  });
+}
+
+function remove_by_id(el,id){
+  controller.storageService.removeInventory(id,function(removed){
+    if (removed == "ok"){
+      $('#show-message-dialog').click();
+      $('#message-title').text("Success");
+      $('#message-content').text("Data deleted.");
+    } else {
+      $('#show-message-dialog').click();
+      $('#message-title').text("Error");
+      $('#message-content').text("Something went wrong. Please try again later."+saved);
+    }
+  });
+  $(el).closest('li').remove();
+}
+
 function save(el) {
+  var id = $('#detail-id').val();
+  var chapter_ordering = $('#detail-ordering').val();
   var name = $('#detail-name').text();
   var description = $("#detail-description").text();
   var inventory_type = $("#detail-type").contents().filter(function(){return this.nodeType == 3;}).text();
@@ -303,8 +374,8 @@ function save(el) {
   var privatenote_note = $(".notetext").text();
   var favorite = 0;
   if ($("#favorite-icon").hasClass("red")) favorite = 1;
-  controller.storageService.addInventory(name, description, category, inventory_type,
-                                  tag,chapter_name,0,source_name,
+  controller.storageService.addInventory(id, name, description, category, inventory_type,
+                                  tag,chapter_name,chapter_ordering,source_name,
                                   source_author,privatenote_note,favorite,function(saved){
     if (saved == "ok"){
       $('#show-message-dialog').click();
