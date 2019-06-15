@@ -72,7 +72,17 @@ SQLiteStorageService = function () {
       });
     }
 
-    service.getInventories = function(type,category,tag,source,chapter,q,callback) {
+    service.getAll = function(callback){
+      db.transaction(function(transaction) {
+        transaction.executeSql("SELECT id,name,source_name,source_author FROM inventory",[], function(ignored, resultSet) {
+            callback(resultSet.rows);
+        });
+      }, function(error) {
+        alert('Get all error: ' + error.message);
+      });
+    }
+
+    service.getInventories = function(type,category,tag,source,chapter,q,isfavorite,callback) {
       sql = 'SELECT * FROM inventory';
       if (q != null && q.length > 0){
         sql = sql + " where ";
@@ -99,33 +109,47 @@ SQLiteStorageService = function () {
           for (var i=0; i<type.length-1; i++)
               s = s + "inventory_type='" + type[i] + "' or ";
           s = s + "inventory_type='" + type[type.length-1] + "'";
-        } if(category) {
+        }
+        if(category) {
           if (s.length > 0) s = s + " and ";
           for (var i=0; i<category.length-1; i++)
               s = s + "category='" + category[i] + "' or ";
           s = s + "category='" + category[category.length-1] + "'";
-        } if(tag) {
+        }
+        if(tag) {
           if (s.length > 0) s = s + " and ";
           for (var i=0; i<tag.length-1; i++)
               s = s + "tag like %'" + tag[i] + "'% or ";
           s = s + "tag like %'" + tag[tag.length-1] +"'%";
-        } if(source) {
+        }
+        var has_source = false;
+        if(source) {
           if (source != null && source.length > 0) {
+            has_source = true;
             if (s.length > 0) s = s + " and ";
+            s = s + "(";
             for (var i=0; i<source.length-1; i++)
                 s = s + "source_name='" + source[i] + "' or ";
             s = s + "source_name='" + source[source.length-1] + "'";
           }
-        } if(chapter) {
+        }
+        if(chapter) {
           if (chapter != null && chapter.length >0) {
-            if (s.length > 0) s = s + " and ";
+            if (has_source) s = s + " or ";
+            else if (s.length > 0) s = s + " and ";
             for (var i=0; i<chapter.length-1; i++)
                 s = s + "chapter_name='" + chapter[i] + "' or ";
-            s = s + "chapter_name='" + chapter[chapter.length] + "'";
+            s = s + "chapter_name='" + chapter[chapter.length-1] + "'";
           }
+        }
+        if (has_source) s = s + ")";
+        if (isfavorite && isfavorite==1) {
+          if (s.length > 0) s = s + " and ";
+          s = s + "isfavorite=1";
         }
         if (s.length > 0) sql = sql + " where " + s;
       }
+      console.log(sql);
       db.transaction(function(transaction) {
         transaction.executeSql(sql,[], function(ignored, resultSet) {
             callback(resultSet.rows);
@@ -135,15 +159,26 @@ SQLiteStorageService = function () {
       });
     }
 
-    service.addInventory = function(name, description, category, inventory_type,
+    service.addInventory = function(id, name, description, category, inventory_type,
                                     tag,chapter_name,chapter_ordering,source_name,
                                     source_author,privatenote_note,isfavorite, callback) {
-      sql = "INSERT OR REPLACE INTO inventory (name, description, category, inventory_type," +
+      sql = "INSERT OR REPLACE INTO inventory (id, name, description, category, inventory_type," +
                                       "tag,chapter_name,chapter_ordering,source_name," +
                                       "source_author,privatenote_note,isfavorite) " +
-            "VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"
       db.transaction(function(transaction) {
-        transaction.executeSql(sql,[name,description, category, inventory_type,tag,chapter_name,chapter_ordering,source_name,source_author,privatenote_note,isfavorite], function(ignored, resultSet) {
+        transaction.executeSql(sql,[id,name,description, category, inventory_type,tag,chapter_name,chapter_ordering,source_name,source_author,privatenote_note,isfavorite], function(ignored, resultSet) {
+            callback("ok");
+        });
+      }, function(error) {
+        callback("error: " + error.message);
+      });
+    }
+
+    service.removeInventory = function(id, callback) {
+      sql = "DELETE FROM inventory where id=?";
+      db.transaction(function(transaction) {
+        transaction.executeSql(sql,[id], function(ignored, resultSet) {
             callback("ok");
         });
       }, function(error) {

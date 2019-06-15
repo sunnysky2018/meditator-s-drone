@@ -82,7 +82,7 @@ SQLiteStorageService = function () {
       });
     }
 
-    service.getInventories = function(type,category,tag,source,chapter,q,callback) {
+    service.getInventories = function(type,category,tag,source,chapter,q,isfavorite,callback) {
       sql = 'SELECT * FROM inventory';
       if (q != null && q.length > 0){
         sql = sql + " where ";
@@ -109,33 +109,47 @@ SQLiteStorageService = function () {
           for (var i=0; i<type.length-1; i++)
               s = s + "inventory_type='" + type[i] + "' or ";
           s = s + "inventory_type='" + type[type.length-1] + "'";
-        } if(category) {
+        }
+        if(category) {
           if (s.length > 0) s = s + " and ";
           for (var i=0; i<category.length-1; i++)
               s = s + "category='" + category[i] + "' or ";
           s = s + "category='" + category[category.length-1] + "'";
-        } if(tag) {
+        }
+        if(tag) {
           if (s.length > 0) s = s + " and ";
           for (var i=0; i<tag.length-1; i++)
               s = s + "tag like %'" + tag[i] + "'% or ";
           s = s + "tag like %'" + tag[tag.length-1] +"'%";
-        } if(source) {
+        }
+        var has_source = false;
+        if(source) {
           if (source != null && source.length > 0) {
+            has_source = true;
             if (s.length > 0) s = s + " and ";
+            s = s + "(";
             for (var i=0; i<source.length-1; i++)
                 s = s + "source_name='" + source[i] + "' or ";
             s = s + "source_name='" + source[source.length-1] + "'";
           }
-        } if(chapter) {
+        }
+        if(chapter) {
           if (chapter != null && chapter.length >0) {
-            if (s.length > 0) s = s + " and ";
+            if (has_source) s = s + " or ";
+            else if (s.length > 0) s = s + " and ";
             for (var i=0; i<chapter.length-1; i++)
                 s = s + "chapter_name='" + chapter[i] + "' or ";
-            s = s + "chapter_name='" + chapter[chapter.length] + "'";
+            s = s + "chapter_name='" + chapter[chapter.length-1] + "'";
           }
+        }
+        if (has_source) s = s + ")";
+        if (isfavorite && isfavorite==1) {
+          if (s.length > 0) s = s + " and ";
+          s = s + "isfavorite=1";
         }
         if (s.length > 0) sql = sql + " where " + s;
       }
+      console.log(sql);
       db.transaction(function(transaction) {
         transaction.executeSql(sql,[], function(ignored, resultSet) {
             callback(resultSet.rows);

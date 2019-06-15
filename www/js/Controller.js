@@ -6,7 +6,7 @@ function redirectForm(e, el_, callback, ep=END_POINT) {
   var method = $(el_).attr('method');
   var el = $(el_);
   headers = null;
-  if (localStorage.getItem('token'))
+  if (localStorage.getItem('token') != null && localStorage.getItem('token').length>0)
     headers = {'Authorization':'Token '+localStorage.getItem('token')};
 
   $.ajax({
@@ -94,7 +94,7 @@ var Controller = function() {
               var data = $(this).serialize();
               var method = $(this).attr('method');
               headers = null;
-              if (localStorage.getItem('token'))
+              if (localStorage.getItem('token') != null && localStorage.getItem('token').length>0)
                 headers = {'Authorization':'Token '+localStorage.getItem('token')};
               $.ajax({
                 url: url,
@@ -121,7 +121,7 @@ var Controller = function() {
                     $('#message-title').text("Error");
                     $('#message-content').text("Connection Error. Use local data instead.");
                   }
-                  storageService.getInventories(null,null,null,null,null,$('input[name="q"]').val(),function(rs){
+                  storageService.getInventories(null,null,null,null,null,$('input[name="q"]').val(),null,function(rs){
                     $('.tab-button').removeClass('active');
                     var $tab = $('#tab-content');
                     $tab.empty();
@@ -172,69 +172,6 @@ var Controller = function() {
                 }
               });
             });
-            /*
-            $('.js-arrow').click(function (e) {
-              e.preventDefault();
-              if (this.id == 'source-h4') {
-                var ul = $(this).next().find('ul');
-                if (ul.length == 0) {
-                  var list = $(this).next().append('<ul class="search-arrow" id="source-ul" style="display:block !important;"></ul>').find('ul');
-                  var all_symbol = "glyphicon-ok";
-                  if (getUrlParameter("source")!== undefined && getUrlParameter("source") != "-1")
-                      all_symbol = "glyphicon-triangle-top";
-                  list.append('<li class="search-arrow source-li source-li-all" id="all-source"><span name="search_source" value="-1" class="glyphicon '+all_symbol+' search-arrow" aria-hidden="true"></span>All Sources</li>');
-                  list.append('<li class="search-arrow source-li source-li-none" id="none-source"><span name="search_source" value="-2" class="glyphicon glyphicon-remove search-arrow" aria-hidden="true"></span>None Sources</li>');
-                  $("#all-source").click(function(){
-                    if ($(this).find('span').hasClass("glyphicon-triangle-top")){
-                      $(this).closest('ul').find('li').each(function(){
-                        if ((!$(this).hasClass('has-sub')) && $(this).find('span').hasClass("glyphicon-triangle-top")){
-                            $(this).find('span').removeClass("glyphicon-triangle-top")
-                                    .addClass("glyphicon-ok");
-                        }
-                      });
-                      $(this).find('span').removeClass("glyphicon-triangle-top")
-                             .addClass("glyphicon-ok");
-                    } else if ($(this).find('span').hasClass("glyphicon-ok")) {
-                      $(this).find('span').removeClass("glyphicon-ok")
-                             .addClass("glyphicon-triangle-top");
-                    }
-                  });
-                  $("#none-source").click(function(){
-                    $(this).closest('ul').find('li').each(function(){
-                      if ((!$(this).hasClass('has-sub')) && $(this).find('span').hasClass("glyphicon-ok")){
-                          $(this).find('span').removeClass("glyphicon-ok")
-                                  .addClass("glyphicon-triangle-top");
-                      }
-                    });
-                  });
-                  $.ajax({
-                      url: end_point + '/source_list/',
-                      type: 'GET',
-                      success: function(responseData) {
-                        localStorage.setItem("online",true);
-                        set_source(responseData["data"]);
-                      },
-                      error: function(xmlhttprequest, textstatus, message) {
-                        if (localStorage.getItem("online")=="true"){
-                          localStorage.setItem("online",false);
-                          $('#show-message-dialog').click();
-                          $('#message-title').text("Connection Error");
-                          $('#message-content').text("Something went wrong. Using local data.");
-                        }
-                        self.storageService.getSource(function(sc) {
-                          set_source(sc, offline=true);
-                        });
-                      }
-                  });
-                } else {
-                  ul.slideToggle("250");
-                }
-              }
-              $(this).find(".arrow").toggleClass("up");
-              $(this).toggleClass("open");
-              $(this).parent().find('.js-sub-list').slideToggle("250");
-            });
-            */
 
             // search modal
             $('.js-sub-list').hide();
@@ -522,7 +459,7 @@ var Controller = function() {
                 var url = END_POINT + $(this).attr('action');
                 var method = $(this).attr('method');
                 headers = null;
-                if (localStorage.getItem('token'))
+                if (localStorage.getItem('token') != null && localStorage.getItem('token').length>0)
                   headers = {'Authorization':'Token '+localStorage.getItem('token')};
                 $.ajax({
                   url: url,
@@ -568,7 +505,7 @@ var Controller = function() {
                       chapter = null;
                     else
                       source = null;
-                    self.storageService.getInventories(type,category,tag,source,chapter,null,function(rs){
+                    self.storageService.getInventories(type,category,tag,source,chapter,null,null,function(rs){
                       $('.tab-button').removeClass('active');
                       var $tab = $('#tab-content');
                       $tab.empty();

@@ -2884,3 +2884,11 @@ nav.w3agile_paging {
 .inventory-display div ul li {
 	margin-bottom: 0.3em;
 }
+div[contenteditable=true] {
+  -webkit-user-select: text !important;
+  -khtml-user-select: auto !important;
+  -moz-user-select: auto !important;
+  -ms-user-select: auto !important;
+  -o-user-select: auto !important;
+  user-select: text !important;
+}
