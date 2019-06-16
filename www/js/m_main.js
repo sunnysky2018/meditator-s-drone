@@ -700,6 +700,6 @@ function set_chapter(data, list) {
   }
 }
 
-function show_checkin_note(){
-  $("#checkin_note").slideToggle("250");
+function show_checkin_note(el){
+  $(el).closest('li').find("p").slideToggle("250");
 }
