@@ -63,6 +63,44 @@ var Controller = function() {
               localStorage.setItem('next','account');
             });
 
+            $("#fav-li").click(function(){
+              if (localStorage.getItem('token') != null && localStorage.getItem('token').length>0){
+                var headers = {'Authorization':'Token '+localStorage.getItem('token')};
+                var url = END_POINT + "search?fav=1"
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    headers:headers,
+                    success: function(responseData) {
+                      localStorage.setItem("online",true);
+                      if (responseData['responseCode']=='000000') {
+                        $('.tab-button').removeClass('active');
+
+                        var $tab = $('#tab-content');
+                        $tab.empty();
+                        $("#tab-footer").empty();
+
+                        var $projectTemplate = null;
+                        $("#tab-content").load("./views/list-view.html", function() {
+                            set_list(responseData['records']);
+                        });
+                      }
+                    },
+                    error: function(xmlhttprequest, textstatus, message) {
+                      if (message = "Unauthorized") {
+                        $('#show-signin-dialog').click();
+                      } else {
+                        $('#show-message-dialog').click();
+                        $('#message-title').text("Error");
+                        $('#message-content').text("Something went wrong. Please try again later.");
+                      }
+                    }
+                });
+              } else {
+                $('#show-signin-dialog').click();
+              }
+            });
+
             $(".scroll").click(function(event){
               event.preventDefault();
               $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
@@ -83,9 +121,11 @@ var Controller = function() {
             if (localStorage.getItem("token") == null){
               $("#login-li").css('display','block');
               $("#account-li").css('display','none');
+              $("#fav-li").css('display','none');
             } else {
               $("#account-li").css('display','block');
               $("#login-li").css('display','none');
+              $("#fav-li").css('display','block');
             }
 
             $('#kwsearch-form').on('submit', function(e){
@@ -600,10 +640,14 @@ var Controller = function() {
                       var ul = $("#checkin-div").append('<ul class="search-arrow" style="display:block !important;">').find('ul');
                       for (var i=0; i<list.length; i++){
                         var li_str = '<li class="checkin-li">'+
-                                   '<div class="checkin-title"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>'+list[i]['inventory']['name']+'</div>' +
+                                   '<div class="checkin-title">'+list[i]['inventory']['name']+'</div>' +
                                    '<div class="checkin-info">'+list[i]['checkin_time']+'</div>';
                         if (list[i]['length'] != null)
                           li_str = li_str + '<div class="checkin-info">'+list[i]['length']+' minutes</div>';
+                        if (list[i]['note'] != null) {
+                          li_str = li_str + '<div class="checkin-info" onclick="show_checkin_note()">Note&nbsp&nbsp&nbsp<span class="glyphicon glyphicon-forward grey" aria-hidden="true"></span></div>'
+                          li_str = li_str + '<p class="checkin-info" id="checkin_note" style="display:none">'+list[i]['note']+'</p>';
+                        }
                         li_str = li_str + '</li>';
                         ul.append(li_str);
                       }

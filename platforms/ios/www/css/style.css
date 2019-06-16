@@ -2865,7 +2865,7 @@ nav.w3agile_paging {
 	color: #999999 !important;
 }
 .checkin-info{
-	margin: 0 2.5em 0;
+	/* margin: 0 2.5em 0; */
 	color: #999999;
 }
 .about-me p{
@@ -2891,4 +2891,21 @@ div[contenteditable=true] {
   -ms-user-select: auto !important;
   -o-user-select: auto !important;
   user-select: text !important;
+}
+textarea {
+	-webkit-user-select: text !important;
+  -khtml-user-select: auto !important;
+  -moz-user-select: auto !important;
+  -ms-user-select: auto !important;
+  -o-user-select: auto !important;
+  user-select: text !important;
+}
+textarea{
+	width:100% !important;
+	font-size:14px;
+	outline:none;
+	border:1px solid #999;
+	padding:10px;
+	color:#999;
+	background:none;
 }

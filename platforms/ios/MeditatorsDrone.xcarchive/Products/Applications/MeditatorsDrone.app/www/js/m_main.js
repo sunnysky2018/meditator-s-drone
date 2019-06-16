@@ -309,7 +309,7 @@ function get_detail(iid){
             $('.writing-comment').html(localStorage.getItem("username")+" is writing...");
             comments = responseData['comments']
             for (var i=0; i<comments.length; i++){
-              $('#comments-div').after(
+              $('.comment-ul').prepend(
     					  '<p class="comment-info">'+comments[i]['username']+' wrote in '+comments[i]['create_time']+'</p>' +
     						'<p class="comment-content">'+comments[i]['note']+'</p>'
               );
@@ -565,6 +565,7 @@ function check_in(){
   var minute_select = $('#minute-select').val();
   var checkin_length = $('#checkin-length').val();
   var checkin_iid  = $('#detail-id').val();
+  var checkin_note = $('#checkin-note').val();
   if (localStorage.getItem('token') != null && localStorage.getItem('token').length>0){
     var headers = {'Authorization':'Token '+localStorage.getItem('token')};
     $.ajax({
@@ -574,6 +575,7 @@ function check_in(){
         data: {
           checkin_time : checkin_date+" "+hour_select+":"+minute_select+":00",
           length : checkin_length,
+          checkin_note: checkin_note,
           iid : checkin_iid
         },
     });
@@ -696,4 +698,8 @@ function set_chapter(data, list) {
     else
       list.append('<li class="chapter-li" style="margin-left:30px"><span name="search_chapter" value="'+data[i]['id']+'" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>'+data[i]['name']+'</li>');
   }
+}
+
+function show_checkin_note(){
+  $("#checkin_note").slideToggle("250");
 }

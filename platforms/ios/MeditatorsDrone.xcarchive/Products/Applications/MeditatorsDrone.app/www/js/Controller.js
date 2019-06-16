@@ -600,10 +600,14 @@ var Controller = function() {
                       var ul = $("#checkin-div").append('<ul class="search-arrow" style="display:block !important;">').find('ul');
                       for (var i=0; i<list.length; i++){
                         var li_str = '<li class="checkin-li">'+
-                                   '<div class="checkin-title"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>'+list[i]['inventory']['name']+'</div>' +
+                                   '<div class="checkin-title">'+list[i]['inventory']['name']+'</div>' +
                                    '<div class="checkin-info">'+list[i]['checkin_time']+'</div>';
                         if (list[i]['length'] != null)
                           li_str = li_str + '<div class="checkin-info">'+list[i]['length']+' minutes</div>';
+                        if (list[i]['note'] != null) {
+                          li_str = li_str + '<div class="checkin-info" onclick="show_checkin_note()">Note&nbsp&nbsp&nbsp<span class="glyphicon glyphicon-forward grey" aria-hidden="true"></span></div>'
+                          li_str = li_str + '<p class="checkin-info" id="checkin_note" style="display:none">'+list[i]['note']+'</p>';
+                        }
                         li_str = li_str + '</li>';
                         ul.append(li_str);
                       }
