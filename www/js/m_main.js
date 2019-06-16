@@ -210,7 +210,6 @@ function advanced_search_local(){
       else
         criteria[cd[i]] = criteria[cd[i]].split(",");
     }
-    console.log(criteria);
     if (criteria['search_source']=='-1'){
       criteria['search_chapter'] = null;
       criteria['search_source'] = null;
@@ -230,7 +229,6 @@ function advanced_search_local(){
     if ($('#advanced_search').find('.glyphicon-heart').hasClass("red")){
       isfavorite = 1;
     }
-    console.log(criteria);
 
     self.storageService.getInventories(criteria['search_type'],
                                        criteria['search_category'],
@@ -244,6 +242,7 @@ function advanced_search_local(){
       var $projectTemplate = null;
       $("#tab-content").load("./views/list-view.html", function() {
           set_list_local(rs);
+          $('.mfp-close').click();
       });
     });
 }
@@ -310,7 +309,7 @@ function get_detail(iid){
             $('.writing-comment').html(localStorage.getItem("username")+" is writing...");
             comments = responseData['comments']
             for (var i=0; i<comments.length; i++){
-              $('#comments-div').after(
+              $('.comment-ul').prepend(
     					  '<p class="comment-info">'+comments[i]['username']+' wrote in '+comments[i]['create_time']+'</p>' +
     						'<p class="comment-content">'+comments[i]['note']+'</p>'
               );
@@ -566,6 +565,7 @@ function check_in(){
   var minute_select = $('#minute-select').val();
   var checkin_length = $('#checkin-length').val();
   var checkin_iid  = $('#detail-id').val();
+  var checkin_note = $('#checkin-note').val();
   if (localStorage.getItem('token') != null && localStorage.getItem('token').length>0){
     var headers = {'Authorization':'Token '+localStorage.getItem('token')};
     $.ajax({
@@ -575,6 +575,7 @@ function check_in(){
         data: {
           checkin_time : checkin_date+" "+hour_select+":"+minute_select+":00",
           length : checkin_length,
+          checkin_note: checkin_note,
           iid : checkin_iid
         },
     });
@@ -697,4 +698,8 @@ function set_chapter(data, list) {
     else
       list.append('<li class="chapter-li" style="margin-left:30px"><span name="search_chapter" value="'+data[i]['id']+'" class="glyphicon glyphicon-ok search-arrow" aria-hidden="true"></span>'+data[i]['name']+'</li>');
   }
+}
+
+function show_checkin_note(){
+  $("#checkin_note").slideToggle("250");
 }

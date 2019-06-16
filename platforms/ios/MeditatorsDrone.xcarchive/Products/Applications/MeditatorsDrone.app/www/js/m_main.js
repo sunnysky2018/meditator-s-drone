@@ -210,7 +210,6 @@ function advanced_search_local(){
       else
         criteria[cd[i]] = criteria[cd[i]].split(",");
     }
-    console.log(criteria);
     if (criteria['search_source']=='-1'){
       criteria['search_chapter'] = null;
       criteria['search_source'] = null;
@@ -230,7 +229,6 @@ function advanced_search_local(){
     if ($('#advanced_search').find('.glyphicon-heart').hasClass("red")){
       isfavorite = 1;
     }
-    console.log(criteria);
 
     self.storageService.getInventories(criteria['search_type'],
                                        criteria['search_category'],
@@ -244,6 +242,7 @@ function advanced_search_local(){
       var $projectTemplate = null;
       $("#tab-content").load("./views/list-view.html", function() {
           set_list_local(rs);
+          $('.mfp-close').click();
       });
     });
 }

@@ -149,7 +149,6 @@ SQLiteStorageService = function () {
         }
         if (s.length > 0) sql = sql + " where " + s;
       }
-      console.log(sql);
       db.transaction(function(transaction) {
         transaction.executeSql(sql,[], function(ignored, resultSet) {
             callback(resultSet.rows);
